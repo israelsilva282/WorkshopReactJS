@@ -1,5 +1,8 @@
 import "./home.css"
 
+import { Social } from "../../components/Social"
+import { FaLinkedin, FaInstagram, FaGithub } from "react-icons/fa"
+
 export default function Home() {
     return (
         <div className="home-container">
@@ -24,6 +27,22 @@ export default function Home() {
                         <p className="link-text">Link do GitHub</p>
                     </a>
                 </section>
+
+                <footer>
+                    <Social url="https://github.com/israelsilva282">
+                        <FaGithub size={35} color="#FFF" />
+                    </Social>
+
+                    <Social url="https://www.linkedin.com/in/israel-costa-6b282321b/">
+                        <FaLinkedin size={35} color="#FFF" />
+                    </Social>
+
+                    <Social url="https://www.instagram.com/israelc282/">
+                        <FaInstagram size={35} color="#FFF" />
+                    </Social>
+
+                </footer>
+
             </main>
         </div>
     )
