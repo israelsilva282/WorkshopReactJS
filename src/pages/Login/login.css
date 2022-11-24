@@ -7,23 +7,14 @@
   width: 100%;
 }
 
-.form-login {
+.form {
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 100%;
   max-width: 600px;
 }
 
-.form-login input {
-  border: 0;
-  height: 36px;
-  margin-bottom: 14px;
-  border-radius: 4px;
-  padding: 0 8px;
-  outline: none;
-}
-
-.form-login button {
+.form button {
   height: 36px;
   border-radius: 4px;
   background-color: #3366ff;
