@@ -5,6 +5,7 @@ import Login from "./pages/Login"
 import Admin from "./pages/Admin"
 import Error from "./pages/Error";
 import Private from "./Routes/Private"
+import Networks from "./pages/Networks";
 
 const router = createBrowserRouter([{
   path: "/",
@@ -17,6 +18,10 @@ const router = createBrowserRouter([{
 {
   path: "/admin",
   element: <Private> <Admin /> </Private>
+},
+{
+  path: "/admin/social",
+  element: <Private> <Networks /> </Private>
 },
 {
   path: "*",

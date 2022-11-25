@@ -1,36 +1,91 @@
 import "./home.css";
 import { Social } from "../../components/Social";
+import { useState, useEffect } from "react";
 import {
-  FaWhatsapp,
   FaInstagram,
   FaGithub,
   FaLinkedinIn,
 } from "react-icons/fa";
 
+import { doc, collection, getDoc, getDocs, orderBy, query } from "firebase/firestore";
+import { db } from "../../services/firebaseConnection";
+
 export default function Home() {
+  const [links, setLinks] = useState([]);
+  const [socialLinks, setSocialLinks] = useState({});
+
+
+  useEffect(() => {
+    function loadLinks() {
+      const linksRef = collection(db, "links")
+      const queryRef = query(linksRef, orderBy("created", "asc"))
+      getDocs(queryRef).then((snapshot) => {
+        let lista = [];
+        snapshot.forEach((doc) => {
+          lista.push({
+            id: doc.id,
+            name: doc.data().name,
+            url: doc.data().url,
+            bg: doc.data().bg,
+            color: doc.data().color
+          })
+        })
+        setLinks(lista)
+      })
+    }
+
+    loadLinks();
+  }, [])
+
+  useEffect(() => {
+    function loadSocialLinks() {
+      const docRef = doc(db, "social", "link");
+      getDoc(docRef).then((snapshot) => {
+        if (snapshot.data() !== undefined) {
+          setSocialLinks({
+            instagram: snapshot.data().instagram,
+            linkedin: snapshot.data().linkedin,
+            github: snapshot.data().github,
+          })
+        }
+      })
+    }
+    loadSocialLinks();
+  }, [])
+
   return (
     <div className="home-container">
       <h1>Israel Costa e Silva</h1>
       <span>Veja meus links 👇</span>
 
       <main className="links">
-        <section className="link-area">
-          <a href="https://www.instagram.com/israelc282/" target="_blank">
-            <p className="link-text">Instagram</p>
-          </a>
-        </section>
 
-        <footer>
+        {links.map((item) => (
+          <section key={item.id} className="link-area" style={{ backgroundColor: item.bg }}>
+            <a href={item.url} target="_blank">
+              <p className="link-text" style={{ color: item.color }}>
+                {item.name}
+              </p>
+            </a>
+          </section>
+        ))}
 
-          <Social url="https://github.com/israelsilva282">
-            <FaGithub size={35} color="#FFF" />
-          </Social>
+        {links.length !== 0 && Object.keys(socialLinks).length > 0 && (
+          <footer>
+            <Social url={socialLinks?.github}>
+              <FaGithub size={35} color="#FFF" />
+            </Social>
 
-          <Social url="https://www.linkedin.com/in/israel-costa-6b282321b/">
-            <FaLinkedinIn size={35} color="#FFF" />
-          </Social>
-        </footer>
+            <Social url={socialLinks?.linkedin}>
+              <FaLinkedinIn size={35} color="#FFF" />
+            </Social>
+
+            <Social url={socialLinks?.instagram}>
+              <FaInstagram size={35} color="#FFF" />
+            </Social>
+          </footer>
+        )}
       </main>
-    </div>
+    </div >
   );
 }

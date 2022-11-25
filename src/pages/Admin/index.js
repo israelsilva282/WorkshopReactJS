@@ -1,6 +1,6 @@
 import "./admin.css";
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Header } from "../../components/Header";
 import { Logo } from "../../components/Logo";
 import { Input } from "../../components/Input";
@@ -14,8 +14,27 @@ import { toast } from "react-toastify"
 export default function Admin() {
   const [nameInput, setNameInput] = useState("");
   const [urlInput, setUrlInput] = useState("");
-  const [backgroundColorInput, setBackgroundColorInput] = useState("#f1f1f1")
-  const [textColorInput, setTextColorInput] = useState("121212")
+  const [backgroundColorInput, setBackgroundColorInput] = useState("#f1f1f1");
+  const [textColorInput, setTextColorInput] = useState("121212");
+
+  const [links, setLinks] = useState([]);
+  useEffect(() => {
+    const linksRef = collection(db, "links");
+    const queryRef = query(linksRef, orderBy("created", "asc"));
+    onSnapshot(queryRef, (snapshot) => {
+      let lista = [];
+      snapshot.forEach((doc) => {
+        lista.push({
+          id: doc.id,
+          name: doc.data().name,
+          url: doc.data().url,
+          bg: doc.data().bg,
+          color: doc.data().color
+        })
+        setLinks(lista);
+      })
+    })
+  }, [])
 
   async function handleRegister(e) {
     e.preventDefault();
@@ -38,6 +57,12 @@ export default function Admin() {
       })
 
   }
+
+  async function handleDeleteLink(id) {
+    const docRef = doc(db, "links", id);
+    await deleteDoc(docRef);
+  }
+
   return (
     <div className="admin-container">
       <Header />
@@ -63,7 +88,7 @@ export default function Admin() {
           </div>
         </section>
 
-        {nameInput != "" && (
+        {nameInput !== "" && (
           <div className="preview animate-pop">
             <label className="label">Veja como está ficando 👇</label>
             <article className="list" style={{ marginBottom: 8, marginTop: 8, backgroundColor: backgroundColorInput }}>
@@ -81,13 +106,17 @@ export default function Admin() {
         Meus links
       </h2>
 
-      <article className="list animate-pop"
-        style={{ backgroundColor: "#" }}>
-        <p>Grupo exclusivo no Telegram</p>
-        <div>
-          <button className="btn-delete"><FiTrash2 /></button>
-        </div>
-      </article>
+      {links.map((item, index) => (
+        <article
+          key={index}
+          className="list animate-pop"
+          style={{ backgroundColor: item.bg, color: item.color }}>
+          <p>{item.name}</p>
+          <div>
+            <button className="btn-delete" onClick={() => handleDeleteLink(item.id)}><FiTrash2 /></button>
+          </div>
+        </article>
+      ))}
 
     </div>
   );
