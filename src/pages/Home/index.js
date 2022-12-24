@@ -44,6 +44,7 @@ export default function Home() {
       getDoc(docRef).then((snapshot) => {
         if (snapshot.data() !== undefined) {
           setSocialLinks({
+            whatsapp: snapshot.data().whatsapp,
             instagram: snapshot.data().instagram,
             linkedin: snapshot.data().linkedin,
             github: snapshot.data().github,

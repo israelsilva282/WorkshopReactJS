@@ -20,6 +20,7 @@ export function Header() {
 
         <Link to="/admin">Links</Link>
         <Link to="/admin/social">Redes Sociais</Link>
+        <Link to="/">Home</Link>
       </nav>
     </header>
   );
