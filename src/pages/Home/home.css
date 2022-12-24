@@ -47,11 +47,17 @@
   color: #000;
 }
 
+.footer-icons,
 footer {
   display: flex;
+  align-items: center;
   justify-content: center;
   gap: 14px;
   margin: 18px 0;
+}
+
+footer {
+  flex-direction: column;
 }
 
 @media screen and (max-width: 550px) {
@@ -74,4 +80,8 @@ footer {
   .link-text {
     font-size: 14px;
   }
+}
+
+.title-footer {
+  display: block;
 }

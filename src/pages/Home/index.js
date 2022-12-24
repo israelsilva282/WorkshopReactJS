@@ -5,6 +5,7 @@ import {
   FaInstagram,
   FaGithub,
   FaLinkedinIn,
+  FaWhatsapp,
 } from "react-icons/fa";
 
 import { doc, collection, getDoc, getDocs, orderBy, query } from "firebase/firestore";
@@ -72,17 +73,25 @@ export default function Home() {
 
         {links.length !== 0 && Object.keys(socialLinks).length > 0 && (
           <footer>
-            <Social url={socialLinks?.github}>
-              <FaGithub size={35} color="#FFF" />
-            </Social>
+            <h2 style={{ color: "#fff" }}>Meus contatos 👇</h2>
+            <div className="footer-icons">
 
-            <Social url={socialLinks?.linkedin}>
-              <FaLinkedinIn size={35} color="#FFF" />
-            </Social>
+              <Social url={socialLinks?.whatsapp}>
+                <FaWhatsapp size={35} color="#FFF" />
+              </Social>
 
-            <Social url={socialLinks?.instagram}>
-              <FaInstagram size={35} color="#FFF" />
-            </Social>
+              <Social url={socialLinks?.github}>
+                <FaGithub size={35} color="#FFF" />
+              </Social>
+
+              <Social url={socialLinks?.linkedin}>
+                <FaLinkedinIn size={35} color="#FFF" />
+              </Social>
+
+              <Social url={socialLinks?.instagram}>
+                <FaInstagram size={35} color="#FFF" />
+              </Social>
+            </div>
           </footer>
         )}
       </main>
