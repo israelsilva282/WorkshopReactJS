@@ -1,14 +1,14 @@
-import "./home.css";
-import { Social } from "../../components/Social";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
-  FaInstagram,
   FaGithub,
+  FaInstagram,
   FaLinkedinIn,
   FaWhatsapp,
 } from "react-icons/fa";
+import { Social } from "../../components/Social";
+import "./home.css";
 
-import { doc, collection, getDoc, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../../services/firebaseConnection";
 
 export default function Home() {
@@ -64,7 +64,7 @@ export default function Home() {
 
         {links.map((item) => (
           <section key={item.id} className="link-area" style={{ backgroundColor: item.bg }}>
-            <a href={item.url} target="_blank">
+            <a href={item.url} target="_blank" rel="noreferrer">
               <p className="link-text" style={{ color: item.color }}>
                 {item.name}
               </p>
@@ -77,21 +77,27 @@ export default function Home() {
             <h2 style={{ color: "#fff" }}>Meus contatos 👇</h2>
             <div className="footer-icons">
 
-              <Social url={socialLinks?.whatsapp}>
-                <FaWhatsapp size={35} color="#FFF" />
-              </Social>
+              {socialLinks.whatsapp !== "" &&
+                <Social url={socialLinks.whatsapp}>
+                  <FaWhatsapp size={35} color="#FFF" />
+                </Social>
+              }
+              {socialLinks.github !== "" &&
+                <Social url={socialLinks.github}>
+                  <FaGithub size={35} color="#FFF" />
+                </Social>
+              }
+              {socialLinks.linkedin !== "" &&
+                <Social url={socialLinks.linkedin}>
+                  <FaLinkedinIn size={35} color="#FFF" />
+                </Social>
+              }
+              {socialLinks.instagram !== "" &&
+                <Social url={socialLinks.instagram}>
+                  <FaInstagram size={35} color="#FFF" />
+                </Social>
+              }
 
-              <Social url={socialLinks?.github}>
-                <FaGithub size={35} color="#FFF" />
-              </Social>
-
-              <Social url={socialLinks?.linkedin}>
-                <FaLinkedinIn size={35} color="#FFF" />
-              </Social>
-
-              <Social url={socialLinks?.instagram}>
-                <FaInstagram size={35} color="#FFF" />
-              </Social>
             </div>
           </footer>
         )}
